@@ -6,6 +6,6 @@ class CreateEntries < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :Entries, [:user_id, :created_at]
+    add_index :entries, [:user_id, :created_at]
   end
 end
