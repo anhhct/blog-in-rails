@@ -1,0 +1,43 @@
+<% provide(:title, @title) %>
+<span class="title_big"><%= wrap(@entry.title) %></span>
+<span class="content"><%= wrap(@entry.content) %></span>
+<span class="timestamp">
+Posted <%= time_ago_in_words(@entry.created_at) %> ago.
+</span>
+<% if current_user?(@entry.user) %>
+<%= link_to "delete", @entry, method: :delete,
+                                 data: { confirm: "You sure?" },
+                                 title: @entry.content %>
+<% end %>
+
+<h3> Comments </h3>
+<% if signed_in? %>
+  <%= form_for(@comment) do |f| %>
+  	<%= render 'shared/error_messages', object: f.object %>
+  	<div class="comment_field">  	
+      <%= f.text_area :content, placeholder: "Compose new comment..." %>
+      <%= f.hidden_field  :entry_id , value: @entry.id %>
+    	</div>
+    	<%= f.submit "Post", class: "btn btn-large btn-primary" %>
+  <% end %>
+<% end %>
+
+<ol class="comments">
+  <% @entry.comments.each do |comment| %>
+  <li>
+      <%= link_to gravatar_for(comment.user, size:50), comment.user %>
+    	<span class="user">
+        <%= link_to comment.user.name, comment.user %>
+      </span> <br>
+      <span class="content"><%= wrap(comment.content) %></span>
+      <span class="timestamp">
+        Posted <%= time_ago_in_words(comment.created_at) %> ago.
+      </span>
+      <% if current_user?(comment.user) %>
+        <%= link_to "delete", comment, method: :delete,
+                                         data: { confirm: "You sure?" },
+                                         title: comment.content %>
+      <% end %>
+  </li>
+  <% end %>
+</ol>

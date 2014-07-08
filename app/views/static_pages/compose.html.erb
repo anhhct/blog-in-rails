@@ -1,0 +1,14 @@
+<% provide(:title, 'New Entry') %>
+
+<%= form_for(@entry) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="title_field">
+  	<%= f.text_area :title, placeholder: "Title..." %>
+  </div>
+  <div class="field">  	
+    <%= f.text_area :content, placeholder: "Compose new entry..." %>
+  </div>
+  
+  
+  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
+<% end %>
